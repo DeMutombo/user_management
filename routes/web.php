@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RolesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/role-manager', [RolesController::class, 'index'])->middleware('can:manage_user')->name('admin.index');
+Route::PUT('/role-manager', [RolesController::class, 'update'])->middleware('can:manage_user')->name('admin.update');

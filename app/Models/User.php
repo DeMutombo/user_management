@@ -40,4 +40,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
+
+    // A user can be assigned a role
+    public function assignRole($role)
+    {
+        // if role is being passed in as a string check it in the table that assign
+        if (is_string($role)) {
+            $role = Role::whereName($role)->firstOrFail();
+        }
+        // sync the data instead of save, to be able to overite similar and keep old data
+        $this->roles()->sync($role, true);
+    }
+
+    public function abilities()
+    {
+        return $this->roles->map->abilities->flatten()->pluck('name')->unique();
+    }
 }

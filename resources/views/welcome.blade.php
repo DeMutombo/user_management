@@ -12,7 +12,7 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     </head>
-    <body class="mx-auto">
+    <body >
         <div class="container mt-5 text-center"> 
                 <div class="row">
                     <div class="col-12">
@@ -24,6 +24,12 @@
                                 <div>
                                     @auth
                                         <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Home</a>
+                                        @can('manage_user', Model::class)
+                                        <div class="m-2">
+                                            <a href="/role-manager" class="btn btn-primary">Assign user roles</a>
+                                        </div>
+                                        @endcan
+                                       
                         @else
                                         <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
                 
